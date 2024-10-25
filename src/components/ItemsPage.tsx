@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import styles from '@/styles/ItemsPage.module.css';
-import { useTheme } from '@/context/ThemeContext';
+import styles from '../styles/ItemsPage.module.css'; 
+import { useTheme } from '../context/ThemeContext';
 
 interface Item {
   _id: string;
@@ -11,7 +11,7 @@ interface Item {
   key: string;
   modified: string;
   status: string;
-  type: string;
+  type: string; 
   value: string;
 }
 
@@ -45,7 +45,7 @@ const ItemsPage: React.FC = () => {
 
   return (
     <div className={`${styles.container} ${theme}`}>
-      <button onClick={toggleTheme}>
+      <button onClick={toggleTheme} className={styles.toggleButton}>
         Switch to {theme === 'light' ? 'Dark' : 'Light'} Mode
       </button>
       <h1 className={styles.title}>Items</h1>
