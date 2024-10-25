@@ -1,15 +1,20 @@
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-  }
-  
-  .light {
-    background-color: #ffffff;
-    color: #000000;
-  }
-  
-  .dark {
-    background-color: #1a1a1a;
-    color: #ffffff;
-  }
-  
+  background-color: #fce4b1;
+  /* Bright Yellow background */
+  margin: 0;
+  /* Remove default margin */
+  font-family: Arial, sans-serif;
+  /* Ensure consistent font */
+  color: #333;
+  /* Default text color */
+}
+
+.light {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.dark {
+  background-color: #1a1a1a;
+  color: #ffffff;
+}

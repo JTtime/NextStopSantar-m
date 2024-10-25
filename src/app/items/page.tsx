@@ -122,10 +122,10 @@ const ItemsPage: React.FC = () => {
 
   return (
     <div className={`${styles.container} ${theme}`}>
-      <button onClick={toggleTheme} className={styles.toggleButton}>
+      {/* <button onClick={toggleTheme} className={styles.toggleButton}>
         Switch to {theme === 'light' ? 'Dark' : 'Light'} Mode
-      </button>
-      <h1 className={styles.title}>Items</h1>
+      </button> */}
+      <h1 className={styles.title}>Listing Details</h1>
       <div className={styles.cardContainer}>
         {items.map((item) => {
           const value = JSON.parse(item.value);
