@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import styles from '@/styles/ItemsPage.module.css'; 
+import styles from '@/styles/ItemsPage.module.css';
 import { useTheme } from '@/context/ThemeContext';
 import { toTitleCase } from '@/utility/utilityFunctions';
 
@@ -12,7 +12,7 @@ interface Item {
   key: string;
   modified: string;
   status: string;
-  type: string; 
+  type: string;
   value: string;
 }
 
@@ -54,18 +54,47 @@ const ItemsPage: React.FC = () => {
     if (typeInfo.type === 'object') {
       return (
         <ul>
-          {Object.keys(typeInfo.properties).map((dataKey) => (
-            <li key={dataKey}>
-              <strong>{toTitleCase(dataKey.replace(/_/g, ' '))}:</strong> {subValue[dataKey]}
-            </li>
-          ))}
+          {Object.entries(typeInfo.properties).map(([dataKey, dataValue]) => {
+            console.log('datakey', dataValue.type)
+            if (dataValue.type === 'array') {
+              return (
+                <li key={dataKey}>
+                  <strong>{toTitleCase(dataKey.replace(/_/g, ' '))}:</strong>
+                  <ul>
+                    {subValue[dataKey].map((ele: any, index: number) => (
+                      <li key={index}>
+                        {typeof ele === 'object' ? (
+                          <ul>
+                            {Object.entries(ele).map(([itemKey, itemValue]) => (
+                              <li key={itemKey}>
+                                <strong>{toTitleCase(itemKey.replace(/_/g, ' '))}:</strong> {itemValue}
+                              </li>
+                            ))}
+                          </ul>
+                        ) : (
+                          ele
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              );
+            } else 
+            {
+              return (
+                <li key={dataKey}>
+                  <strong>{toTitleCase(dataKey.replace(/_/g, ' '))}:</strong> {subValue[dataKey]}
+                </li>
+              )              
+            }            
+          })}
         </ul>
       );
     }
 
     if (typeInfo.type === 'array') {
 
-      console.log('subkey', subKey, 'subValue:', subValue, 'typeProperties', typeProperties )
+      console.log('subkey', subKey, 'subValue:', subValue, 'typeProperties', typeProperties)
       return (
         <ul>
           {subValue.map((item: any, index: number) => {

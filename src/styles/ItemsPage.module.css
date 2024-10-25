@@ -23,7 +23,7 @@
 .cardContainer {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px; /* Spacing between cards */
+  gap: 20px; 
   align-items: stretch; /* Ensures uniform height */
 }
 
