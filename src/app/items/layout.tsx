@@ -5,7 +5,7 @@ interface LayoutProps {
 }
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
-  return <div>{children}</div>;
+  return <div className='bodyBackground'>{children}</div>;
 };
 
 export default Layout;
