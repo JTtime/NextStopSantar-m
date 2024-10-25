@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from '../styles/ItemsPage.module.css'; 
 import { useTheme } from '../context/ThemeContext';
+import { toTitleCase } from '@/utility/utilityFunctions';
 
 interface Item {
   _id: string;
@@ -49,16 +50,41 @@ const ItemsPage: React.FC = () => {
         Switch to {theme === 'light' ? 'Dark' : 'Light'} Mode
       </button>
       <h1 className={styles.title}>Items</h1>
-      <ul className={styles.itemList}>
-        {items.map((item) => (
-          <li key={item._id} className={styles.item}>
-            <h2 className={styles.itemKey}>{item.key}</h2>
-            <p><strong>Created:</strong> {new Date(item.created).toLocaleString()}</p>
-            <p><strong>Status:</strong> {item.status}</p>
-            <p><strong>Value:</strong> {JSON.parse(item.value).luggage_lockers?.Santarém_Airport || 'N/A'}</p>
-          </li>
-        ))}
-      </ul>
+      <div className={styles.cardContainer}>
+        {items.map((item) => {
+          const value = JSON.parse(item.value);
+          const typeProperties = JSON.parse(item.type).properties;
+
+          return (
+            <div key={item._id} className={styles.card}>
+              <h2 className={styles.cardTitle}>{item.key.replace(/_/g, ' ')}</h2>
+              <p><strong>Created:</strong> {new Date(item.created).toLocaleString()}</p>
+              <p><strong>Status:</strong> {item.status}</p>
+              <div className={styles.valueContainer}>
+                {Object.entries(value).map(([subKey, subValue]) => {
+                    console.log('subkey', subKey, 'subValue:', subValue, 'typeProperties', typeProperties )
+                  const subKeyDisplay = typeProperties[subKey] ? subKey.replace(/_/g, ' ') : subKey;
+
+                  return (
+                    <div key={subKey} className={styles.subKey}>
+                      <strong>{toTitleCase(subKeyDisplay)}:</strong>
+                      {Array.isArray(subValue) ? (
+                        <ul>
+                          {subValue?.map((item, index) => (
+                            <li key={`item-${index}`}>item</li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <p>subvalue</p>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
