@@ -9,7 +9,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
   const db = client.db('assignment'); // Replace with your database name
 
   const result = await db.collection('details').updateOne(
-    { id: id }, // Assuming "id" is the unique identifier
+    { id: id },
     { $set: updatedData }
   );
 

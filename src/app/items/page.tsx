@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import styles from '@/styles/ItemsPage.module.css';
 import { useTheme } from '@/context/ThemeContext';
 import { toTitleCase } from '@/utility/utilityFunctions';
+import { APIServices } from '../hooks/useApi';
 
 interface Item {
   _id: string;
@@ -16,30 +17,35 @@ interface Item {
   value: string;
 }
 
-const ItemsPage: React.FC = () => {
+
+
+const ItemsPage: React.FC = ({ }) => {
   const [items, setItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
-    const fetchItems = async () => {
-      try {
-        const response = await fetch('/api/items');
-        if (!response.ok) {
-          throw new Error('Failed to fetch items');
-        }
-        const data = await response.json();
-        setItems(data);
-      } catch (err: any) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchItems();
   }, []);
+
+  const fetchItems = async () => {
+    try {
+      // const response = await fetch('/api/items');
+      const response = await APIServices.getAllData();
+      if (response.status !== 200) {
+        throw new Error('Failed to fetch items');
+      }
+      // const data = await response.json();
+      setItems(response?.data);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
 
   if (loading) return <div className={styles.loading}>Loading...</div>;
   if (error) return <div className={styles.error}>Error: {error}</div>;
@@ -79,14 +85,13 @@ const ItemsPage: React.FC = () => {
                   </ul>
                 </li>
               );
-            } else 
-            {
+            } else {
               return (
                 <li key={dataKey}>
                   <strong>{toTitleCase(dataKey.replace(/_/g, ' '))}:</strong> {subValue[dataKey]}
                 </li>
-              )              
-            }            
+              )
+            }
           })}
         </ul>
       );
@@ -117,7 +122,11 @@ const ItemsPage: React.FC = () => {
       );
     }
 
-    return null; // Fallback for unsupported types
+    return (
+      <>
+        <p>Something Went Wrong, please contact your service administrator</p>
+      </>
+    ); // Fallback for unsupported types
   };
 
   return (
@@ -127,7 +136,7 @@ const ItemsPage: React.FC = () => {
       </button> */}
       <h1 className={styles.title}>Listing Details</h1>
       <div className={styles.cardContainer}>
-        {items.map((item) => {
+        {items?.map((item) => {
           const value = JSON.parse(item.value);
           const typeProperties = JSON.parse(item.type).properties;
 
@@ -151,5 +160,6 @@ const ItemsPage: React.FC = () => {
     </div>
   );
 };
+
 
 export default ItemsPage;
