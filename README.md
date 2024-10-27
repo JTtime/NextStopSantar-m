@@ -2,7 +2,17 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+First, install the development server:
+
+```bash
+npm run install
+# or
+yarn
+```
+
+
+
+Then, run the development server:
 
 ```bash
 npm run dev
@@ -19,6 +29,12 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+
+## Backend
+
+After running development server, backend will also start in same port with api route.
+
+e.g. [http://localhost:3000/api/items](http://localhost:3000/api/items)
 
 ## Learn More
 
